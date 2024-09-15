@@ -1,0 +1,38 @@
+{
+	"name": "nextjs-seo",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev -p 3040",
+		"build": "next build",
+		"start": "next start -p 3040",
+		"lint": "next lint",
+		"db:studio": "drizzle-kit studio",
+		"db:generate": "drizzle-kit generate",
+		"db:push": "drizzle-kit push",
+		"db:seed": "tsx ./seed/data-seed.ts",
+		"format": "prettier --write .",
+		"prepare": "husky"
+	},
+	"dependencies": {
+		"next": "14.2.11",
+		"react": "^18",
+		"react-dom": "^18"
+	},
+	"devDependencies": {
+		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
+		"@types/lint-staged": "^13.3.0",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"eslint": "^8",
+		"eslint-config-next": "14.2.11",
+		"husky": "^9.1.6",
+		"lint-staged": "^15.2.10",
+		"postcss": "^8",
+		"prettier": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.6",
+		"tailwindcss": "^3.4.1",
+		"typescript": "^5"
+	}
+}
