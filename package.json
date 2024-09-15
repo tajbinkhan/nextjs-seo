@@ -12,6 +12,7 @@
 		"db:push": "drizzle-kit push",
 		"db:seed": "tsx ./seed/data-seed.ts",
 		"format": "prettier --write .",
+		"fix": "eslint --fix .",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -27,6 +28,7 @@
 		"@types/react-dom": "^18",
 		"eslint": "^8",
 		"eslint-config-next": "14.2.11",
+		"eslint-plugin-unused-imports": "^4.1.4",
 		"husky": "^9.1.6",
 		"lint-staged": "^15.2.10",
 		"postcss": "^8",
@@ -34,5 +36,14 @@
 		"prettier-plugin-tailwindcss": "^0.6.6",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
+	},
+	"lint-staged": {
+		"**/*.{js,jsx,ts,tsx}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"**/*.{json,md}": [
+			"prettier --write"
+		]
 	}
 }
