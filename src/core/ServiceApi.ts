@@ -15,7 +15,6 @@ interface Pagination {
 	hasPrevPage?: boolean; // Whether there is a previous page
 	hasNextPage?: boolean; // Whether there is a next page
 }
-
 interface ServiceApiResponse<T> {
 	status: number; // HTTP status code
 	message: string; // Response message
@@ -23,7 +22,7 @@ interface ServiceApiResponse<T> {
 	pagination?: Pagination; // Pagination information
 }
 
-export class ServiceResponse {
+class ServiceResponse {
 	static createResponse = async <T>(
 		status: number,
 		message: string,
@@ -31,12 +30,10 @@ export class ServiceResponse {
 		pagination?: Pagination
 	) => {
 		if (status >= 400) return Promise.reject({ status, message });
-
 		if (noContentStatus.includes(status)) {
 			// Handle responses where no content is expected
 			return Promise.resolve({ status, message });
 		}
-
 		const response = { status, message, data, pagination } as ServiceApiResponse<T>;
 		return Promise.resolve(response);
 	};
@@ -48,22 +45,36 @@ export class ServiceResponse {
 	};
 
 	static successResponse = (message: string) => {
-		return this.createResponse(status.HTTP_200_OK, message);
+		return this.sendResponse({
+			status: status.HTTP_200_OK,
+			message
+		});
 	};
 
 	static badResponse = (message: string) => {
-		return this.createResponse(status.HTTP_400_BAD_REQUEST, message);
+		return this.sendResponse({
+			status: status.HTTP_400_BAD_REQUEST,
+			message
+		});
 	};
 
 	static internalServerError = () => {
-		return this.createResponse(status.HTTP_500_INTERNAL_SERVER_ERROR, "Internal server error");
+		return this.sendResponse({
+			status: status.HTTP_500_INTERNAL_SERVER_ERROR,
+			message: "Internal Server Error"
+		});
 	};
 
-	static sendResponse = <T>({ status, message, data, pagination }: ServiceApiResponse<T>) => {
+	static sendResponse = <T>({
+		status,
+		message,
+		data,
+		pagination
+	}: ServiceApiResponse<T>): NextResponse => {
 		if (noContentStatus.includes(status)) {
 			return NextResponse.json({}, { status: status });
 		}
-
 		return NextResponse.json({ status: status, message, data, pagination }, { status: status });
 	};
 }
+export default ServiceResponse;

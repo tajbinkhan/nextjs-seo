@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { ApiController, ApiCrudController } from "@/core/ApiController";
-import { ServiceResponse } from "@/core/ServiceApi";
+import ServiceResponse from "@/core/ServiceApi";
 import TestRepository from "@/modules/Test/Repositories/TestRepository";
 
 export default class TestController extends ApiController implements ApiCrudController {

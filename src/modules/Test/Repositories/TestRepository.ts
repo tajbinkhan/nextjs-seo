@@ -1,4 +1,4 @@
-import { ServiceResponse } from "@/core/ServiceApi";
+import ServiceResponse from "@/core/ServiceApi";
 import { status } from "@/core/StatusCodes";
 import DrizzleBaseRepository from "@/database/adapters/Drizzle/DrizzleRepository";
 
