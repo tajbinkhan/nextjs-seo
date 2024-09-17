@@ -2,6 +2,7 @@
 
 type FetchOptions = Omit<RequestInit, "body"> & {
 	body?: any; // Flexibility for FormData, JSON, etc.
+	params?: Record<string, any>; // For query params
 	timeout?: number; // Timeout support
 };
 
@@ -24,6 +25,17 @@ class FetchWrapper {
 		this.responseInterceptors.push(interceptor);
 	}
 
+	// Helper method to construct query string
+	private createQueryString(params: Record<string, any>): string {
+		const query = new URLSearchParams();
+		for (const key in params) {
+			if (params.hasOwnProperty(key)) {
+				query.append(key, params[key]);
+			}
+		}
+		return query.toString();
+	}
+
 	async request(url: string, options: FetchOptions = {}) {
 		let fullUrl = url.startsWith("http") ? url : `${this.baseURL}${url}`;
 		let config = { ...options };
@@ -31,6 +43,12 @@ class FetchWrapper {
 		// Apply request interceptors
 		for (const interceptor of this.requestInterceptors) {
 			config = interceptor(config);
+		}
+
+		// Handle query parameters
+		if (config.params) {
+			const queryString = this.createQueryString(config.params);
+			fullUrl += `?${queryString}`;
 		}
 
 		// Handle timeouts
